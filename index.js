@@ -4,13 +4,13 @@ const { writeFileSync, readFileSync } = require('fs');
 const app = express();
 app.all('/', (req, res) => {
   console.log('Just got a request!');
-  writeFileSync('test.txt', 'req');
+  writeFileSync('/tmp/test.txt', 'req');
 
   res.send('Yo!');
 });
 
 app.get('/get', (req, res) => {
-  const data = readFileSync('test.txt');
+  const data = readFileSync('/tmp/test.txt');
   res.send(data);
 });
 
