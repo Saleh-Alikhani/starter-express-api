@@ -145,6 +145,7 @@ app.get('/get', apiGuard, (_, res) =>
 );
 
 app.post('/login', async (req, res) => {
+  console.log(req.body);
   for (let value of users) {
     if (value.username === req.body.username) {
       const valid = await bcrypt.compare(req.body.password, value.password);
