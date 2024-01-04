@@ -144,10 +144,10 @@ app.get('/get', apiGuard, (_, res) =>
   res.status(200).setHeader('Access-Control-Allow-Origin', '*').send(subs)
 );
 
-app.get('/login', async (req, res) => {
+app.post('/login', async (req, res) => {
   for (let value of users) {
-    if (value.username === req.headers.username) {
-      const valid = await bcrypt.compare(req.headers.password, value.password);
+    if (value.username === req.body.username) {
+      const valid = await bcrypt.compare(req.body.password, value.password);
       if (valid) {
         console.log('signing jwt.');
         res.status(200).send({
