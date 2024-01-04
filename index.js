@@ -149,17 +149,20 @@ app.post('/login', async (req, res) => {
   for (let value of users) {
     if (value.username === req.body.username) {
       const valid = await bcrypt.compare(req.body.password, value.password);
+      console.log(valid);
       if (valid) {
         console.log('signing jwt.');
-        res.status(200).send({
-          token: jwt.sign(
-            {
-              username: value.username,
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: '1800s' }
-          ),
-        });
+        res.status(200).send(
+          JSON.stringify({
+            token: jwt.sign(
+              {
+                username: value.username,
+              },
+              process.env.JWT_SECRET,
+              { expiresIn: '1800s' }
+            ),
+          })
+        );
       }
     }
   }
