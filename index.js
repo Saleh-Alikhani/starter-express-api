@@ -61,8 +61,8 @@ const apiGuard = (req, res, next) => {
 
 const errorCatcher = (err) => {
   console.log('Bucket unreachable turning app off...', err);
-  s3.destroy();
-  server.close();
+  //s3.destroy();
+  //server.close();
 };
 
 s3.send(
@@ -181,6 +181,20 @@ app.post('/signup', async (req, res) => {
     })
   );
   res.status(200).end();
+});
+
+app.get('/tel', async (req, res) => {
+  try {
+    let res;
+    await fetch('https://telegram.me/s/' + req.query.target)
+      .then((result) => (res = result))
+      .catch((err) => {
+        console.log('https://telegram.me/s/' + req.query.target, 'a');
+      });
+    return res;
+  } catch (err) {
+    console.log(err, 'b');
+  }
 });
 
 server = app.listen(process.env.PORT || 3000, () => {
