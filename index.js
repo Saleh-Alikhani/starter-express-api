@@ -9,6 +9,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { default: axios } = require('axios');
 
 require('dotenv').config();
 
@@ -185,13 +186,10 @@ app.post('/signup', async (req, res) => {
 
 app.get('/tel', async (req, res) => {
   try {
-    let res;
-    await fetch('https://telegram.me/s/' + req.query.target)
-      .then((result) => (res = result))
-      .catch((err) => {
-        console.log('https://telegram.me/s/' + req.query.target, 'a');
-      });
-    return res;
+    await axios
+      .get('https://t.me/s/' + req.query.target)
+      .then((response) => res.send(response.data))
+      .catch((err) => console.log(err));
   } catch (err) {
     console.log(err, 'b');
   }
