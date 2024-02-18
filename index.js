@@ -9,11 +9,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 const { default: axios } = require('axios');
-
-const { createVLESSServer } = require('@3kmfi6hp/nodejs-proxy');
-
-createVLESSServer(8080, '4da011a9-135c-4c13-a29d-0c4842f795ef');
 
 require('dotenv').config();
 
@@ -65,7 +62,7 @@ const apiGuard = (req, res, next) => {
 };
 
 const errorCatcher = (err) => {
-  console.log('Bucket unreachable turning app off...', err);
+  //console.log('Bucket unreachable turning app off...', err);
   //s3.destroy();
   //server.close();
 };
@@ -190,10 +187,21 @@ app.post('/signup', async (req, res) => {
 
 app.get('/tel', async (req, res) => {
   try {
+    let str;
     await axios
-      .get('https://t.me/s/' + req.query.target)
-      .then((response) => res.send(response.data))
-      .catch((err) => console.log(err));
+    .get('https://t.me/s/' + req.query.target)
+    .then((response) => str = response)
+    .catch((err) => str = '');
+    const regex = new RegExp(/(vless:\/\/[^\#\s\n]*)(\#[^\s\n<]+)/g)
+    const result = [...str.matchAll(regex)];
+    const vless = []
+    for(let i of result){
+      if(!vless.includes(i[0])){
+        vless.push(i[0])
+      }
+    }
+    res.send(vless)
+
   } catch (err) {
     console.log(err, 'b');
   }
