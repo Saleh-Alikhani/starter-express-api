@@ -203,7 +203,7 @@ app.get('/tel', async (req, res) => {
         subs.push(i[0]);
       }
     }
-    res.send(vless.join('\n'));
+    res.send(subs.join('\n'));
   } catch (err) {
     console.log(err, 'b');
   }
