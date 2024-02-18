@@ -189,20 +189,18 @@ app.get('/tel', async (req, res) => {
   try {
     let str;
     await axios
-    .get('https://google.com')//'https://t.me/s/' + req.query.target
-    .then((response) => str = String(response.data))
-    .catch((err) => str = '');
-    const regex = new RegExp(/(vless:\/\/[^\#\s\n]*)(\#[^\s\n<]+)/g)
-    console.log(typeof str.matchAll)
+      .get('https://t.me/s/' + req.query.target)
+      .then((response) => (str = String(response.data)))
+      .catch((err) => (str = ''));
+    const regex = new RegExp(/(vless:\/\/[^\#\s\n]*)(\#[^\s\n<]+)/g);
     const result = [...str.matchAll(regex)];
-    const vless = []
-    for(let i of result){
-      if(!vless.includes(i[0])){
-        vless.push(i[0])
+    const vless = [];
+    for (let i of result) {
+      if (!vless.includes(i[0])) {
+        vless.push(i[0]);
       }
     }
-    res.send(vless)
-
+    res.send(vless);
   } catch (err) {
     console.log(err, 'b');
   }
