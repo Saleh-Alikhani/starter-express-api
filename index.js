@@ -200,8 +200,8 @@ app.get('/tel', async (req, res) => {
     const subs = [];
     for (let i of result) {
       if (!subs.includes(i[0])) {
-        console.log(i[0])
-        subs.push(i[0]);
+        console.log(i[0].replaceAll('\n',''))
+        subs.push(i[0].replaceAll('\n',''));
       }
     }
     res.send(subs.join('\n'));
