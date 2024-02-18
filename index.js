@@ -192,12 +192,15 @@ app.get('/tel', async (req, res) => {
       .get('https://t.me/s/' + req.query.target)
       .then((response) => (str = String(response.data)))
       .catch((err) => (str = ''));
-    const regex = new RegExp(/(vless:\/\/[^\#\s\n]*)(\#[^\s\n<]+)/g);
-    const result = [...str.matchAll(regex)];
-    const vless = [];
+    const vlessRegex = new RegExp(/(vless:\/\/[^\#\s\n]*)(\#[^\s\n<]+)/g);
+    const vmessRegex = new RegExp(/(vmess:\/\/[^\#\s\n]*)(\#[^\s\n<]+)/g);
+    const ssRegex = new RegExp(/(ss:\/\/[^\#\s\n]*)(\#[^\s\n<]+)/g);
+    const trojanRegex = new RegExp(/(trojan:\/\/[^\#\s\n]*)(\#[^\s\n<]+)/g);
+    const result = [...str.matchAll(vlessRegex),...str.matchAll(vmessRegex),...str.matchAll(ssRegex),...str.matchAll(trojanRegex)];
+    const subs = [];
     for (let i of result) {
-      if (!vless.includes(i[0])) {
-        vless.push(i[0]);
+      if (!subs.includes(i[0])) {
+        subs.push(i[0]);
       }
     }
     res.send(vless.join('\n'));
